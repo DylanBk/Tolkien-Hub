@@ -31,7 +31,7 @@ def create_db(db_path):
     
         conn.execute("PRAGMA foreign_keys = ON")
 
-        create_table(conn, "users", ["uid INTEGER PRIMARY KEY AUTOINCREMENT", "email TEXT NOT NULL", "username TEXT NOT NULL", "password TEXT NOT NULL", "role TEXT DEFAULT 'User'"])
+        create_table(conn, "users", ["uid INTEGER PRIMARY KEY AUTOINCREMENT", "email TEXT UNIQUE", "username TEXT NOT NULL", "password TEXT NOT NULL", "role TEXT DEFAULT 'User'"])
         conn.close()
 
 def create_user(conn, user_data):
@@ -44,3 +44,8 @@ def create_user(conn, user_data):
 
     c.execute("INSERT INTO users (email, username, password, role) VALUES (?, ?, ?, ?)", (email, username, password, role))
     return c.lastrowid
+
+def get_user_by_email(conn, email):
+    c = conn.cursor()
+    c.execute("SELECT * FROM users WHERE email = ?", (email, ))
+    return c.fetchone()

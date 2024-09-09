@@ -1,3 +1,4 @@
+import bcrypt
 from dotenv import load_dotenv
 from flask import Flask, redirect, render_template,request, session, url_for
 import os
@@ -11,15 +12,6 @@ db_path = './instance/users.db'
 
 
 def get_news():
-    pass
-
-
-# --- ROUTES ---
-
-@app.route('/')
-@app.route('/index')
-@app.route('/home')
-def home():
     with open('./news/news.txt', 'r') as f:
         lines = f.readlines()
         news_title = lines[0]
@@ -30,35 +22,86 @@ def home():
     except:
         news_image = False
 
-    if news_image:
-        return render_template('index.html', news_title=news_title, news_content=news_content, news_image=news_image)
-    else:
-        return render_template('index.html', news_title=news_title, news_content=news_content)
+    return news_title, news_content, news_image
+
+
+# --- ROUTES ---
+
+@app.route('/')
+@app.route('/index')
+@app.route('/home')
+def home():
+    news_title, news_content, news_image = get_news()
+
+    return render_template('index.html', news_title=news_title, news_content=news_content, news_image=news_image)
 
 @app.route('/about')
 def about():
     return render_template('about.html')
 
-
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    if session:
+        news_title, news_content, news_image = get_news()
+        return render_template('index.html', news_title=news_title, news_content=news_content, news_image=news_image)
+
     if request.method == "POST":
-        email = request.form['email']
-        username = request.form['username']
-        password = request.form['password']
+        try:
+            print(request.form)
+            email = request.form.get('email')
+            username = request.form.get('username')
+            password = request.form.get('password')
+            print(email, username, password)
+            user_data = [email, username, password, "User"]
 
-        with db.connect(db_path) as conn:
-            db.create_user(conn, email, username, password, role="User")
+            with db.connect(db_path) as conn:
+                db.create_user(conn, user_data)
 
-        return redirect('index.html')
+            news_title, news_content, news_image = get_news()
+            return render_template('index.html', news_title=news_title, news_content=news_content, news_image=news_image)
+        except Exception as e:
+            print(f"Error: {e}")
+            return render_template('login.html')
+    else:
+        return render_template('login.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == "POST":
-        pass
-    else:
-        return redirect('index.html')
+    if session:
+        news_title, news_content, news_image = get_news()
+        return render_template('index.html', news_title=news_title, news_content=news_content, news_image=news_image)
 
+    if request.method == "POST":
+        try:
+            email = request.form['email']
+            password = request.form['password']
+
+            with db.connect(db_path) as conn:
+                user = db.get_user_by_email(conn, email)
+
+            if user:
+                if bcrypt.checkpw(password.encode('utf-8'), user[3]):
+                    session['user_id'] = user[0]
+                    session['email'] = user[1]
+                    session['username'] = user[2]
+                    session['role'] = user[4]
+
+                    news_title, news_content, news_image = get_news()
+                    return render_template('index.html', news_title=news_title, news_content=news_content, news_image=news_image)
+                else:
+                    return render_template('login.html', error_message="Incorrect Password")
+            else:
+                return render_template('login.html', error_message="A user with this email does not exist")
+        except Exception as e:
+            print(f"Error: {e}")
+            return render_template('login.html')
+    else:
+        return render_template('login.html')
+
+
+@app.route('/settings')
+def settings():
+    return render_template('settings.html')
 
 # --- MAIN ---
 
