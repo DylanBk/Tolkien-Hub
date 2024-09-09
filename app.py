@@ -1,4 +1,5 @@
 import bcrypt
+from datetime import timedelta
 from dotenv import load_dotenv
 from flask import Flask, redirect, render_template,request, session, url_for
 import os
@@ -6,10 +7,15 @@ import db_functions as db
 
 app = Flask(__name__)
 load_dotenv()
-app.secret_key = os.environ.get('SECRET_KEY')
+# app.secret_key = os.environ.get('SECRET_KEY')
+app.secret_key = "secret"
+print(os.environ.get('SECRET_KEY'))
+app.permanent_session_lifetime = timedelta(minutes=30)
 
 db_path = './instance/users.db'
 
+
+# --- UTILS ---
 
 def get_news():
     with open('./news/news.txt', 'r') as f:
@@ -32,7 +38,6 @@ def get_news():
 @app.route('/home')
 def home():
     news_title, news_content, news_image = get_news()
-
     return render_template('index.html', news_title=news_title, news_content=news_content, news_image=news_image)
 
 @app.route('/about')
@@ -81,10 +86,12 @@ def login():
 
             if user:
                 if bcrypt.checkpw(password.encode('utf-8'), user[3]):
+                    session.permanent = True
                     session['user_id'] = user[0]
                     session['email'] = user[1]
                     session['username'] = user[2]
                     session['role'] = user[4]
+                    conn.close()
 
                     news_title, news_content, news_image = get_news()
                     return render_template('index.html', news_title=news_title, news_content=news_content, news_image=news_image)
@@ -98,6 +105,17 @@ def login():
     else:
         return render_template('login.html')
 
+@app.route('/logout')
+def logout():
+    if session:
+        session.pop('user_id', None)
+        session.pop('email', None)
+        session.pop('username', None)
+        session.pop('role', None)
+        session.clear()
+
+    news_title, news_content, news_image = get_news()
+    return render_template('index.html', news_title=news_title, news_content=news_content, news_image=news_image)
 
 @app.route('/settings')
 def settings():

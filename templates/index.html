@@ -31,7 +31,7 @@
 <body>
 
     <header class="tw-h-32 tw-w-full tw-fixed tw-top-0 tw-flex tw-flex-col tw-bg-green-darkest">
-        <h1 class=" tw-pb-8 tw-m-auto tw-text-white tw-text-5xl tw-font-cinzel">Tolkien Hub</h1>
+        <a href="{{ url_for('home') }}" class="tw-pb-8 tw-m-auto tw-text-white tw-text-5xl tw-font-cinzel">Tolkien Hub</a>
         <nav class="tw-h-8 tw-w-full tw-absolute tw-bottom-0 tw-flex">
             <li class="tw-w-full tw-flex tw-justify-center tw-items-center tw-bg-gold">
                 <ul class="tw-p-2 tw-mx-5 hover:tw-text-red-800"><a href="#">About</a></ul>
@@ -39,7 +39,7 @@
                 <ul class="tw-p-2 tw-mx-5 hover:tw-text-red-800"><a href="#">Books</a></ul>
                 <ul class="tw-p-2 tw-mx-5 hover:tw-text-red-800"><a href="#">Film Adaptations</a></ul>
                 {% if not session %}
-                    <ul class="tw-absolute tw-right-10 tw-p-1"><a href="{{ url_for('login') }}">Login</a></ul>
+                    <ul class="tw-absolute tw-right-10 tw-p-1 hover:tw-text-red-800 tw-transition-all"><a href="{{ url_for('login') }}">Login</a></ul>
                 {% endif %}
                 {% if session %}
                     <ul class="tw-absolute tw-right-10"><a href="#"><img class="tw-h-6" src="/static/media/profile.png" alt="A profile icon."></a></ul>
