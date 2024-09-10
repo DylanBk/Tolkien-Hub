@@ -1,12 +1,12 @@
 import bcrypt
 from datetime import timedelta
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 from flask import Flask, redirect, render_template,request, session, url_for
 import os
 import db_functions as db
 
 app = Flask(__name__)
-load_dotenv()
+# load_dotenv()
 # app.secret_key = os.environ.get('SECRET_KEY')
 app.secret_key = "secret"
 print(os.environ.get('SECRET_KEY'))
@@ -128,4 +128,4 @@ with db.connect(db_path) as conn:
     pass # add default admin
 
 if __name__ == "__main__":
-    app.run()
+    app.run(3000)

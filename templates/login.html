@@ -41,37 +41,36 @@
         </nav>
     </header>
 
-    <main class="tw-h-auto tw-w-full tw-border tw-border-white tw-mt-44">
+    <main class="tw-h-auto tw-w-max tw-flex tw-flex-col tw-items-center tw-border tw-border-white tw-mt-44 tw-mx-36">
 
-        <div id="form-container" class="tw-h-auto tw-w-60 tw-flex tw-mx-auto tw-text-white">
+        <div id="form-container" class="tw-h-auto tw-w-max tw-flex tw-mx-auto tw-text-white">
 
-            <div class="tw-mr-10">
+            <div class="tw-h-80 tw-w-96 tw-rounded-t-3xl tw-bg-green-900">
                 <h2>Register Form</h2>
                 <form
                     id="signup-form"
                     class="tw-flex tw-flex-col"
                     action="{{ url_for('signup') }}"
-                    method="post"
-                >
+                    method="post">
                     <label for="email">Email</label>
                     <input
-                        class="tw-text-black"
+                        class="tw-w-80 tw-bg-green-800 tw-border-b tw-rounded-lg tw-mx-auto tw-outline-none"
                         name="email"
                         type="email"
                         required>
                     <label for="username">Username</label>
                     <input
-                        class="tw-text-black"
+                        class="tw-w-80 tw-bg-green-800 tw-border-b tw-rounded-lg tw-mx-auto tw-outline-none"
                         name="username"
                         type="text"
                         required>
                     <label for="password">Password</label>
                     <input
-                        class="tw-text-black"
+                        class="tw-w-80 tw-bg-green-800 tw-border-b tw-rounded-lg tw-mx-auto tw-outline-none"
                         name="password"
                         type="password"
                         required>
-                    <button class="tw-p-2 tw-bg-gold" type="submit">Sign Up</button>
+                    <button class="tw-w-72 tw-p-2 tw-rounded-sm tw-mx-auto tw-my-8 tw-bg-gold hover:tw-bg-gold-dark" type="submit">Sign Up</button>
                 </form>
             </div>
 
