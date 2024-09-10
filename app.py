@@ -128,4 +128,4 @@ with db.connect(db_path) as conn:
     pass # add default admin
 
 if __name__ == "__main__":
-    app.run(3000)
+    app.run()

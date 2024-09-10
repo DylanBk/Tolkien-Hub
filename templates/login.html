@@ -41,60 +41,71 @@
         </nav>
     </header>
 
-    <main class="tw-h-auto tw-w-max tw-flex tw-flex-col tw-items-center tw-border tw-border-white tw-mt-44 tw-mx-36">
+    <main class="tw-h-auto tw-w-10/12 tw-flex tw-flex-col tw-items-center tw-border tw-border-white tw-mt-44 tw-mx-auto">
 
-        <div id="form-container" class="tw-h-auto tw-w-max tw-flex tw-mx-auto tw-text-white">
+        <div id="form-container" class="tw-h-auto tw-w-max tw-self-center tw-flex tw-mx-auto tw-bg-red-300 tw-text-white">
 
-            <div class="tw-h-80 tw-w-96 tw-rounded-t-3xl tw-bg-green-900">
-                <h2>Register Form</h2>
+            <div class="tw-h-80 tw-w-max tw-absolute tw-rounded-t-3xl tw-bg-green-900">
+                <h2 class="tw-text-2xl tw-text-center">Register</h2>
                 <form
                     id="signup-form"
                     class="tw-flex tw-flex-col"
                     action="{{ url_for('signup') }}"
                     method="post">
-                    <label for="email">Email</label>
+                    <label
+                        class="tw-w-4/5 tw-relative tw-flex tw-flex-row tw-mx-auto"
+                        for="email">Email
                     <input
-                        class="tw-w-80 tw-bg-green-800 tw-border-b tw-rounded-lg tw-mx-auto tw-outline-none"
+                        class="tw-w-64 tw-absolute tw-right-0 tw-p-1 tw-border-b tw-rounded-lg tw-outline-none tw-bg-green-800"
                         name="email"
                         type="email"
-                        required>
-                    <label for="username">Username</label>
+                        required></label>
+                    <label
+                        class="tw-w-4/5 tw-relative tw-flex tw-flex-row tw-mx-auto tw-my-8"
+                        for="username">Username
                     <input
-                        class="tw-w-80 tw-bg-green-800 tw-border-b tw-rounded-lg tw-mx-auto tw-outline-none"
+                        class="tw-w-64 tw-absolute tw-right-0 tw-p-1 tw-border-b tw-rounded-lg tw-mx-auto tw-outline-none tw-bg-green-800"
                         name="username"
                         type="text"
-                        required>
-                    <label for="password">Password</label>
+                        required></label>
+                    <label
+                        class="tw-w-4/5 tw-relative tw-flex tw-flex-row tw-mx-auto"
+                        for="password">Password
                     <input
-                        class="tw-w-80 tw-bg-green-800 tw-border-b tw-rounded-lg tw-mx-auto tw-outline-none"
+                        class="tw-w-64 tw-absolute tw-right-0 tw-p-1 tw-border-b tw-rounded-lg tw-mx-auto tw-outline-none tw-bg-green-800"
                         name="password"
                         type="password"
-                        required>
-                    <button class="tw-w-72 tw-p-2 tw-rounded-sm tw-mx-auto tw-my-8 tw-bg-gold hover:tw-bg-gold-dark" type="submit">Sign Up</button>
+                        required></label>
+                    <button class="tw-w-72 tw-p-2 tw-rounded-sm tw-mx-auto tw-my-8 tw-bg-gold tw-text-black hover:tw-bg-gold-dark tw-transition-all" type="submit">Sign Up</button>
                 </form>
             </div>
 
-            <div>
-                <h2>Login Form</h2>
+            <div class="tw-h-80 tw-w-96 tw-absolute tw-rounded-t-3xl tw-bg-green-900">
+                <div
+                    id="login-form-switch"
+                    class="tw-h-4 tw-w-48">
+                    Sign In
+            </div>
+                <h2 class="tw-text-2xl tw-text-center">Sign In</h2>
                 <form
                     id="login-form"
-                    class=""
+                    class="tw-flex tw-flex-col"
                     action="{{ url_for('login') }}"
                     method="post"
                     >
                     <label for="email">Email</label>
                     <input
-                        class="tw-text-black"
+                        class="tw-w-80 tw-bg-green-800 tw-border-b tw-rounded-lg tw-mx-auto tw-outline-none"
                         name="email"
                         type="email"
                         required>
                         <label for="password">Password</label>
                     <input
-                        class="tw-text-black"
+                        class="tw-w-80 tw-bg-green-800 tw-border-b tw-rounded-lg tw-mx-auto tw-outline-none"
                         name="password"
                         type="password"
                         required>
-                    <button class="tw-p-2 tw-bg-gold" type="submit">Sign In</button>
+                    <button class="tw-w-72 tw-p-2 tw-rounded-sm tw-mx-auto tw-my-8 tw-bg-gold tw-text-black hover:tw-bg-gold-dark tw-transition-all" type="submit">Log In</button>
                     </form>
                 </div>
 
