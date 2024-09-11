@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" type="image/x-icon" href="../static/media/favicon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tolkien Hub | Login</title>
+    <script src="/static//js/script.js" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -36,78 +38,106 @@
                 <ul class="tw-p-2 tw-mx-5 hover:tw-text-red-800"><a href="#">Books</a></ul>
                 <ul class="tw-p-2 tw-mx-5 hover:tw-text-red-800"><a href="#">Film Adaptations</a></ul>
                 <ul class="tw-absolute tw-right-10"><a href="#"><img class="tw-h-6" src="/static/media/profile.png" alt="A profile icon."></a></ul>
-                <ul class="tw-absolute tw-right-2"><a href="#"><img class="tw-h-6 hover:tw-rotate-45 tw-transition-transform tw-duration-500" src="/static/media/settings-wheel.png" alt="A settings cog icon."></a></ul>
+                <ul class="tw-absolute tw-right-2"><a href="{{ url_for('settings') }}"><img class="tw-h-6 hover:tw-rotate-45 tw-transition-transform tw-duration-500" src="/static/media/settings-wheel.png" alt="A settings cog icon."></a></ul>
             </li>
         </nav>
     </header>
 
     <main class="tw-h-auto tw-w-10/12 tw-flex tw-flex-col tw-items-center tw-border tw-border-white tw-mt-44 tw-mx-auto">
 
-        <div id="form-container" class="tw-h-auto tw-w-max tw-self-center tw-flex tw-mx-auto tw-bg-red-300 tw-text-white">
+        <div
+            id="form-container"
+            class="tw-h-80 tw-w-1/4 tw-absolute tw-left-1/2 tw-flex tw-rounded-tl-3xl tw-m-auto tw-mt-20 tw-bg-white tw-text-black tw--translate-x-1/2">
 
-            <div class="tw-h-80 tw-w-max tw-absolute tw-rounded-t-3xl tw-bg-green-900">
-                <h2 class="tw-text-2xl tw-text-center">Register</h2>
+            <div
+                id="form-container-left-block"
+                class="tw-h-80 tw-w-1/4 tw-absolute tw-left-0 tw-flex tw-flex-col tw-justify-center tw-text-center">
+                <h3 class="tw-text-md tw-font-semibold tw-text-green-900">Welcome Back!</h3>
+                <p class="tw-text-sm">We're so glad to see you again.</p>
+            </div>
+
+            <div
+                id="signup-form-container"
+                class="tw-h-80 tw-w-3/4 tw-absolute tw--top-10 tw-left-0 tw-rounded-tl-3xl tw-mt-10 tw-bg-green-900">
+                <button
+                    id="signup-form-switch"
+                    class="tw-h-10 tw-w-56 tw-absolute tw--top-10 tw-left-0 -tw-z-50 tw-border-2 tw-rounded-t-3xl tw-border-gold tw-my-auto tw-bg-green-darkest tw-text-lg tw-text-center tw-text-white tw-invisible hover:tw-bg-gold tw-transition-all"
+                    onclick="switch_to_signup_form()">
+                    Register
+                </button>
                 <form
                     id="signup-form"
-                    class="tw-flex tw-flex-col"
+                    class="tw-flex tw-flex-col tw-text-white"
                     action="{{ url_for('signup') }}"
                     method="post">
-                    <label
-                        class="tw-w-4/5 tw-relative tw-flex tw-flex-row tw-mx-auto"
-                        for="email">Email
                     <input
-                        class="tw-w-64 tw-absolute tw-right-0 tw-p-1 tw-border-b tw-rounded-lg tw-outline-none tw-bg-green-800"
+                        class="tw-w-60 tw-p-2 tw-rounded-lg tw-mx-auto tw-mt-10 tw-outline-none tw-bg-green-800"
                         name="email"
                         type="email"
-                        required></label>
-                    <label
-                        class="tw-w-4/5 tw-relative tw-flex tw-flex-row tw-mx-auto tw-my-8"
-                        for="username">Username
+                        placeholder="Email Address"
+                        required>
                     <input
-                        class="tw-w-64 tw-absolute tw-right-0 tw-p-1 tw-border-b tw-rounded-lg tw-mx-auto tw-outline-none tw-bg-green-800"
+                        class="tw-w-60 tw-p-2 tw-rounded-lg tw-mx-auto tw-mt-10 tw-outline-none tw-bg-green-800"
                         name="username"
                         type="text"
-                        required></label>
-                    <label
-                        class="tw-w-4/5 tw-relative tw-flex tw-flex-row tw-mx-auto"
-                        for="password">Password
+                        placeholder="Username"
+                        required>
                     <input
-                        class="tw-w-64 tw-absolute tw-right-0 tw-p-1 tw-border-b tw-rounded-lg tw-mx-auto tw-outline-none tw-bg-green-800"
+                        class="tw-w-60 tw-p-2 tw-rounded-lg tw-mx-auto tw-mt-10 tw-outline-none tw-bg-green-800"
                         name="password"
                         type="password"
-                        required></label>
-                    <button class="tw-w-72 tw-p-2 tw-rounded-sm tw-mx-auto tw-my-8 tw-bg-gold tw-text-black hover:tw-bg-gold-dark tw-transition-all" type="submit">Sign Up</button>
+                        placeholder="Password"
+                        required>
+                    <button
+                        class="tw-w-72 tw-p-2 tw-rounded-sm tw-mx-auto tw-my-8 tw-bg-gold tw-text-black hover:tw-bg-gold-dark tw-transition-all tw-duration-0"
+                        type="submit">
+                    Sign Up
+                    </button>
                 </form>
             </div>
 
-            <div class="tw-h-80 tw-w-96 tw-absolute tw-rounded-t-3xl tw-bg-green-900">
-                <div
+            <div
+                id="login-form-container"
+                class="tw-h-80 tw-w-3/4 tw-absolute tw--top-10 tw-right-0 tw-rounded-tr-3xl tw-mt-10 tw-bg-green-900 tw-invisible">
+                <button
                     id="login-form-switch"
-                    class="tw-h-4 tw-w-48">
+                    class="tw-h-10 tw-w-56 tw-absolute tw--top-10 tw-right-0 tw-z-50 tw-border-2 tw-rounded-t-3xl tw-border-gold tw-my-auto tw-bg-green-darkest tw-text-lg tw-text-center tw-text-white tw-visible hover:tw-bg-gold tw-transition-all"
+                    onclick="switch_to_login_form()">
                     Sign In
-            </div>
-                <h2 class="tw-text-2xl tw-text-center">Sign In</h2>
+                </button>
                 <form
                     id="login-form"
-                    class="tw-flex tw-flex-col"
+                    class="tw-flex tw-flex-col tw-justify-center tw-text-white tw-invisible"
                     action="{{ url_for('login') }}"
                     method="post"
                     >
-                    <label for="email">Email</label>
                     <input
-                        class="tw-w-80 tw-bg-green-800 tw-border-b tw-rounded-lg tw-mx-auto tw-outline-none"
+                        class="tw-w-60 tw-p-2 tw-rounded-lg tw-mx-auto tw-mt-10 tw-outline-none tw-bg-green-800"
                         name="email"
                         type="email"
+                        placeholder="Email Address"
                         required>
-                        <label for="password">Password</label>
+
                     <input
-                        class="tw-w-80 tw-bg-green-800 tw-border-b tw-rounded-lg tw-mx-auto tw-outline-none"
+                        class="tw-w-60 tw-p-2 tw-rounded-lg tw-mx-auto tw-mt-5 tw-mb-5 tw-bg-green-800 tw-outline-none"
                         name="password"
                         type="password"
+                        placeholder="Password"
                         required>
-                    <button class="tw-w-72 tw-p-2 tw-rounded-sm tw-mx-auto tw-my-8 tw-bg-gold tw-text-black hover:tw-bg-gold-dark tw-transition-all" type="submit">Log In</button>
+                    <button
+                        class="tw-w-72 tw-p-2 tw-rounded-sm tw-mx-auto tw-my-8 tw-bg-gold tw-text-black hover:tw-bg-gold-dark tw-transition-all tw-duration-0"
+                        type="submit">
+                        Log In
+                    </button>
                     </form>
                 </div>
+
+            <div
+                id="form-container-right-block"
+                class="tw-h-80 tw-w-1/4 tw-absolute tw-right-0 tw-flex tw-flex-col tw-justify-center tw-text-center">
+                <h3 class="tw-text-md tw-font-semibold tw-text-green-900">Hey There!</h3>
+                <p class="tw-text-sm">Create an account and join the community.</p>
+            </div>
 
         </div>
 

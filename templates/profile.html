@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <link rel="icon" type="image/x-icon" href="../static/media/favicon.png">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tolkien Hub | Profile</title>
+        <script src="/static//js/script.js" defer></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+              theme: {
+                extend: {
+                    colors: {
+                        "gold": "#e3b737",
+                        "gold-dark": "#b87316",
+                        "green-darkest": "#2b2f22",
+                        "green-dark": "#355a22",
+                    },
+                    fontFamily: {
+                        "cinzel": "Cinzel",
+                    }
+                }
+              },
+              prefix: 'tw-',
+            }
+          </script>
+    </head>
+<body>
+
+    <header class="tw-h-32 tw-w-full tw-fixed tw-top-0 tw-flex tw-flex-col tw-bg-green-darkest"></header>
+        <a href="{{ url_for('home') }}" class="tw-pb-8 tw-m-auto tw-text-white tw-text-5xl tw-font-cinzel">Tolkien Hub</a>
+        <nav class="tw-h-8 tw-w-full tw-absolute tw-bottom-0 tw-flex">
+            <li class="tw-w-full tw-flex tw-justify-center tw-items-center tw-bg-gold">
+                <ul class="tw-p-2 tw-mx-5 hover:tw-text-red-800"><a href="#">About</a></ul>
+                <ul class="tw-p-2 tw-mx-5 hover:tw-text-red-800"><a href="#">Tolkien's Life</a></ul>
+                <ul class="tw-p-2 tw-mx-5 hover:tw-text-red-800"><a href="#">Books</a></ul>
+                <ul class="tw-p-2 tw-mx-5 hover:tw-text-red-800"><a href="#">Film Adaptations</a></ul>
+                {% if not session %}
+                    <ul class="tw-absolute tw-right-10 tw-p-1 hover:tw-text-red-800 tw-transition-all"><a href="{{ url_for('login') }}">Login</a></ul>
+                {% endif %}
+                {% if session %}
+                    <ul class="tw-absolute tw-right-10"><a href="#"><img class="tw-h-6" src="/static/media/profile.png" alt="A profile icon."></a></ul>
+                {% endif %}
+                <ul class="tw-absolute tw-right-2"><a href="{{ url_for('settings') }}"><img class="tw-h-6 hover:tw-rotate-45 tw-transition-transform tw-duration-500" src="/static/media/settings-wheel.png" alt="A settings cog icon."></a></ul>
+            </li>
+        </nav>
+    </header>
+
+    <main 
+        id="main-container"
+        class="tw-h-auto tw-flex tw-flex-col tw-items-center tw-border-t tw-border-white tw-mx-36 tw-mt-44 tw-text-white">
+        PROFILE
+    </main>
+    
+</body>
+</html>

@@ -10,7 +10,7 @@ app = Flask(__name__)
 # app.secret_key = os.environ.get('SECRET_KEY')
 app.secret_key = "secret"
 print(os.environ.get('SECRET_KEY'))
-app.permanent_session_lifetime = timedelta(minutes=30)
+app.permanent_session_lifetime = timedelta(minutes=5)
 
 db_path = './instance/users.db'
 
@@ -18,17 +18,10 @@ db_path = './instance/users.db'
 # --- UTILS ---
 
 def get_news():
-    with open('./news/news.txt', 'r') as f:
-        lines = f.readlines()
-        news_title = lines[0]
-        news_content = lines[1]
+    with db.connect(db_path) as conn:
+        title, content, author = db.read_news(conn)
 
-    try:
-        news_image = './news/news-image.png'
-    except:
-        news_image = False
-
-    return news_title, news_content, news_image
+    return title, content, author
 
 
 # --- ROUTES ---
@@ -37,8 +30,8 @@ def get_news():
 @app.route('/index')
 @app.route('/home')
 def home():
-    news_title, news_content, news_image = get_news()
-    return render_template('index.html', news_title=news_title, news_content=news_content, news_image=news_image)
+    news_title, news_content, news_author = get_news()
+    return render_template('index.html', news_title=news_title, news_content=news_content, news_author=news_author)
 
 @app.route('/about')
 def about():
@@ -47,8 +40,8 @@ def about():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if session:
-        news_title, news_content, news_image = get_news()
-        return render_template('index.html', news_title=news_title, news_content=news_content, news_image=news_image)
+        news_title, news_content, news_author = get_news()
+        return render_template('index.html', news_title=news_title, news_content=news_content, news_author=news_author)
 
     if request.method == "POST":
         try:
@@ -62,8 +55,7 @@ def signup():
             with db.connect(db_path) as conn:
                 db.create_user(conn, user_data)
 
-            news_title, news_content, news_image = get_news()
-            return render_template('index.html', news_title=news_title, news_content=news_content, news_image=news_image)
+            return render_template('login.html')
         except Exception as e:
             print(f"Error: {e}")
             return render_template('login.html')
@@ -73,8 +65,8 @@ def signup():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if session:
-        news_title, news_content, news_image = get_news()
-        return render_template('index.html', news_title=news_title, news_content=news_content, news_image=news_image)
+        news_title, news_content, news_author = get_news()
+        return render_template('index.html', news_title=news_title, news_content=news_content, news_author=news_author)
 
     if request.method == "POST":
         try:
@@ -93,8 +85,8 @@ def login():
                     session['role'] = user[4]
                     conn.close()
 
-                    news_title, news_content, news_image = get_news()
-                    return render_template('index.html', news_title=news_title, news_content=news_content, news_image=news_image)
+                    news_title, news_content, news_author = get_news()
+                    return render_template('index.html', news_title=news_title, news_content=news_content, news_author=news_author)
                 else:
                     return render_template('login.html', error_message="Incorrect Password")
             else:
@@ -114,18 +106,29 @@ def logout():
         session.pop('role', None)
         session.clear()
 
-    news_title, news_content, news_image = get_news()
-    return render_template('index.html', news_title=news_title, news_content=news_content, news_image=news_image)
+    news_title, news_content, news_author = get_news()
+    return render_template('index.html', news_title=news_title, news_content=news_content, news_author=news_author)
 
 @app.route('/settings')
 def settings():
     return render_template('settings.html')
 
+
+# --- ADMIN ROUTES ---
+
+@app.route('/dashboard')
+def admin_dashboard():
+    if not session or session.get('role') != 'Admin':
+        news_title, news_content, news_author = get_news()
+        return render_template('index.html', news_title=news_title, news_content=news_content, news_author=news_author)
+    else:
+        return render_template('dashboard.html')
+
 # --- MAIN ---
 
 db.create_db(db_path)
 with db.connect(db_path) as conn:
-    pass # add default admin
+    db.default_admin(conn)
 
 if __name__ == "__main__":
     app.run()
