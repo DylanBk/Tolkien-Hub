@@ -5,7 +5,7 @@
         <link rel="icon" type="image/x-icon" href="../static/media/favicon.png">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Tolkien Hub | Admin Dashboard</title>
+        <title>Tolkien Hub | {{error_type}}</title>
         <script src="/static//js/script.js" defer></script>
         <script src="https://cdn.tailwindcss.com"></script>
         <script>
@@ -41,7 +41,7 @@
                     <ul class="tw-absolute tw-right-10 tw-p-1 hover:tw-text-red-800 tw-transition-all"><a href="{{ url_for('login') }}">Login</a></ul>
                 {% endif %}
                 {% if session %}
-                    <ul class="tw-absolute tw-right-10"><a href="{{ url_for('profile') }}"><img class="tw-h-6" src="/static/media/profile.png" alt="A profile icon."></a></ul>
+                    <ul class="tw-absolute tw-right-10"><a href="#"><img class="tw-h-6" src="/static/media/profile.png" alt="A profile icon."></a></ul>
                 {% endif %}
                 <ul class="tw-absolute tw-right-2"><a href="#"><img class="tw-h-6 hover:tw-rotate-45 tw-transition-transform tw-duration-500" src="/static/media/settings-wheel.png" alt="A settings cog icon."></a></ul>
             </li>
@@ -50,24 +50,10 @@
 
     <main 
         id="main-container"
-        class="tw-h-auto tw-flex tw-flex-col tw-items-center tw-border-t tw-border-white tw-mx-36 tw-mt-44 tw-text-black">
-        <div
-            id="user-list"
-            class="tw-h-auto tw-w-1/2 tw-border tw-border-white tw-rounded-xl tw-mt-10 tw-bg-white">
-            <div class="tw-grid tw-grid-cols-4 tw-border-b tw-border-b-gold">
-                <p>User ID</p>
-                <p>Role</p>
-                <p>Email</p>
-                <p>Username</p>
-            </div>
-            {% for user in users %}
-                <div class="tw-grid tw-grid-cols-4">
-                    <p>{{ user[0] }}</p>
-                    <p class="{% if user[3] == 'Admin' %}tw-text-red-600{% elif user[3] == 'User' %}tw-text-neutral-400{% endif %} tw-font-bold">{{ user[3] }}</p>
-                    <p>{{ user[1] }}</p>
-                    <p>{{ user[2] }}</p>
-                </div>
-            {% endfor %}
+        class="tw-h-auto tw-flex tw-flex-col tw-items-center tw-border-t tw-border-white tw-mx-36 tw-mt-44 tw-text-white">
+        <div>
+            <p class="tw-text-4xl tw-text-red-500">{{ error_title }}</p>
+            <p class="tw-text-xl">{{ error_subtitle | safe }}</p>
         </div>
     </main>
     

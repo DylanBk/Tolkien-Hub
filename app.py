@@ -24,6 +24,29 @@ def get_news():
     return title, content, author
 
 
+# --- ERROR ROUTES ---
+
+@app.errorhandler(400) # bad request
+def err400(error):
+    return render_template('error.html', error_type="Bad Request", error_title="Sorry! We cannot process your request.", error_subtitle="Double check your inputs and try again.")
+
+@app.errorhandler(401) # no authorisation
+def err401(error):
+    return render_template('error.html', error_type="Unauthorised Access", error_title="You do not have authorisation to view this content.", error_subtitle="Please log in to access this page.")
+
+@app.errorhandler(403) # forbidden resource
+def err403(error):
+    return render_template('error.html', error_type="Forbidden", error_title="You do not have access to view this content.", error_subtitle="Please contact us if you believe this to be a mistake.")
+
+@app.errorhandler(404) # resource not found
+def err404(error):
+    return render_template('error.html', error_type="Resource Not Found", error_title="Sorry! We could not find that page.", error_subtitle="Check the URL or return to the &nbsp;<a href='" + url_for('home') + "'>home page</a>.")
+
+@app.errorhandler(500) # internal server error
+def err500(error): # !!! REPLACE MY EMAIL WITH SITE EMAIL ONCE SET UP !!!
+    return render_template('error.html', error_type="Internal Server Error", error_title="Sorry, something went wrong on our end.", error_subtitle="Check back later or report the issue &nbsp; <a href='mailto: dylan.bullock.965@accesscreative.ac.uk'>here</a> &nbsp; by email.")
+
+
 # --- ROUTES ---
 
 @app.route('/')
@@ -109,6 +132,12 @@ def logout():
     news_title, news_content, news_author = get_news()
     return render_template('index.html', news_title=news_title, news_content=news_content, news_author=news_author)
 
+@app.route('/profile')
+def profile():
+    username = session.get('username')
+    email = session.get('email')
+    return render_template('profile.html', username=username, email=email)
+
 @app.route('/settings')
 def settings():
     return render_template('settings.html')
@@ -116,13 +145,18 @@ def settings():
 
 # --- ADMIN ROUTES ---
 
+@app.route('/admin')
 @app.route('/dashboard')
 def admin_dashboard():
     if not session or session.get('role') != 'Admin':
         news_title, news_content, news_author = get_news()
         return render_template('index.html', news_title=news_title, news_content=news_content, news_author=news_author)
     else:
-        return render_template('dashboard.html')
+        with db.connect(db_path) as conn:
+            users = db.get_all_users(conn)
+
+
+        return render_template('dashboard.html', users=users)
 
 # --- MAIN ---
 

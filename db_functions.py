@@ -58,6 +58,11 @@ def create_user(conn, user_data):
     c.execute("INSERT INTO users (email, username, password, role) VALUES (?, ?, ?, ?)", (email, username, password, role))
     return c.lastrowid
 
+def get_all_users(conn):
+    c = conn.cursor()
+    c.execute("SELECT uid, email, username, role FROM users")
+    return c.fetchall()
+
 def get_user_by_email(conn, email):
     c = conn.cursor()
     c.execute("SELECT * FROM users WHERE email = ?", (email, ))
