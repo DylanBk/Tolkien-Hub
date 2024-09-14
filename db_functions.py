@@ -34,7 +34,7 @@ def create_db(db_path):
     
         conn.execute("PRAGMA foreign_keys = ON")
 
-        create_table(conn, "users", ["uid INTEGER PRIMARY KEY AUTOINCREMENT", "email TEXT UNIQUE", "username TEXT NOT NULL", "password TEXT NOT NULL", "role TEXT DEFAULT 'User'"])
+        create_table(conn, "users", ["uid INTEGER PRIMARY KEY AUTOINCREMENT", "email TEXT UNIQUE", "username TEXT UNIQUE", "password TEXT NOT NULL", "role TEXT DEFAULT 'User'", "profile_picture BLOB", "about_user TEXT DEFAULT 'Hey there!'"])
         create_table(conn, "news", ["id INTEGER PRIMARY KEY AUTOINCREMENT", "title TEXT NOT NULL", "content TEXT NOT NULL", "author TEXT NOT NULL", "date TEXT NOT NULL", "time TEXT NOT NULL"])
 
         conn.close()
@@ -60,14 +60,34 @@ def create_user(conn, user_data):
 
 def get_all_users(conn):
     c = conn.cursor()
-    c.execute("SELECT uid, email, username, role FROM users")
+    c.execute("SELECT uid, email, username, role, profile_picture FROM users")
     return c.fetchall()
+
+def get_user_by_username(conn, username):
+    c = conn.cursor()
+    c.execute("SELECT * FROM users WHERE username = ?", (username,))
+    return c.fetchone()
 
 def get_user_by_email(conn, email):
     c = conn.cursor()
     c.execute("SELECT * FROM users WHERE email = ?", (email, ))
     return c.fetchone()
 
+def get_user_by_uid(conn, uid):
+    c = conn.cursor()
+    c.execute("SELECT * FROM users WHERE uid = ?", (uid, ))
+    return c.fetchone()
+
+def update_user_profile_picture(conn, uid, profile_picture):
+    c = conn.cursor()
+    c.execute("UPDATE users SET profile_picture = ? WHERE uid = ?", (profile_picture, uid))
+    return c.lastrowid
+
+def update_user(conn, col, value, uid):
+    c = conn.cursor()
+    query = f"UPDATE users SET {col} = ? WHERE uid = ?"
+    c.execute(query, (value, uid))
+    return c.lastrowid
 
 # --- WEBSITE CRUD FUNCTIONS ---
 

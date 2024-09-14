@@ -3,6 +3,9 @@
     <head>
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
         <link rel="icon" type="image/x-icon" href="../static/media/favicon.png">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap" rel="stylesheet">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Tolkien Hub | Admin Dashboard</title>
@@ -37,37 +40,71 @@
                 <ul class="tw-p-2 tw-mx-5 hover:tw-text-red-800"><a href="#">Tolkien's Life</a></ul>
                 <ul class="tw-p-2 tw-mx-5 hover:tw-text-red-800"><a href="#">Books</a></ul>
                 <ul class="tw-p-2 tw-mx-5 hover:tw-text-red-800"><a href="#">Film Adaptations</a></ul>
-                {% if not session %}
-                    <ul class="tw-absolute tw-right-10 tw-p-1 hover:tw-text-red-800 tw-transition-all"><a href="{{ url_for('login') }}">Login</a></ul>
-                {% endif %}
-                {% if session %}
-                    <ul class="tw-absolute tw-right-10"><a href="{{ url_for('profile') }}"><img class="tw-h-6" src="/static/media/profile.png" alt="A profile icon."></a></ul>
-                {% endif %}
-                <ul class="tw-absolute tw-right-2"><a href="#"><img class="tw-h-6 hover:tw-rotate-45 tw-transition-transform tw-duration-500" src="/static/media/settings-wheel.png" alt="A settings cog icon."></a></ul>
+                <ul class="tw-absolute tw-right-10"><a href="{{ url_for('edit_profile', username=user.username) }}"><img class="tw-h-6" src="/static/media/icons/profile.png" alt="A profile icon."></a></ul>
+                <ul class="tw-absolute tw-right-2"><a href="#"><img class="tw-h-6 hover:tw-rotate-45 tw-transition-transform tw-duration-500" src="/static/media/icons/settings-wheel.png" alt="A settings cog icon."></a></ul>
             </li>
         </nav>
     </header>
 
     <main 
         id="main-container"
-        class="tw-h-auto tw-flex tw-flex-col tw-items-center tw-border-t tw-border-white tw-mx-36 tw-mt-44 tw-text-black">
+        class="tw-h-full tw-flex tw-flex-col tw-items-center tw-border-t tw-border-white tw-mx-36 tw-mt-44 tw-text-black">
         <div
             id="user-list"
-            class="tw-h-auto tw-w-1/2 tw-border tw-border-white tw-rounded-xl tw-mt-10 tw-bg-white">
-            <div class="tw-grid tw-grid-cols-4 tw-border-b tw-border-b-gold">
-                <p>User ID</p>
-                <p>Role</p>
-                <p>Email</p>
-                <p>Username</p>
+            class="tw-h-full tw-w-auto tw-p-2 tw-border tw-border-white tw-rounded-xl tw-mt-10 tw-bg-white tw-overflow-y-scroll">
+            <div class="tw-grid tw-grid-cols-5 tw-divide-x tw-divide-gold tw-border-b tw-border-b-gold">
+                <p class="tw-text-center">Profile Picture</p>
+                <p class="tw-text-center">User ID</p>
+                <p class="tw-text-center">Role</p>
+                <p class="tw-text-center">Email</p>
+                <p class="tw-text-center">Username</p>
             </div>
             {% for user in users %}
-                <div class="tw-grid tw-grid-cols-4">
-                    <p>{{ user[0] }}</p>
-                    <p class="{% if user[3] == 'Admin' %}tw-text-red-600{% elif user[3] == 'User' %}tw-text-neutral-400{% endif %} tw-font-bold">{{ user[3] }}</p>
-                    <p>{{ user[1] }}</p>
-                    <p>{{ user[2] }}</p>
-                </div>
+                <a
+                    class="tw-w-full tw-block hover:tw-bg-gray-200"
+                    href="{{ url_for('edit_profile', username=user[2]) }}">
+                    <div class="tw-grid tw-grid-cols-5 tw-items-center tw-border-t tw-border-gray-200">
+                        {% if users[user] %}
+                            <div class="tw-w-full">
+                                <img
+                                    id="user-user-pfp"
+                                    class="tw-h-10 tw-aspect-square tw-m-1 tw-rounded-full tw-border tw-mx-auto tw-border-black"
+                                    src="data:image/png;base64,{{ users[user] }}"
+                                    alt="User Profile Picture">
+                            </div>
+                        {% else %}
+                            <div>
+                                <img
+                                    id="user-user-pfp"
+                                    class="tw-h-10 tw-aspect-square tw-m-1 tw-rounded-full tw-border tw-mx-auto tw-border-black"
+                                    src="/static/media/images/user-placeholder.png"
+                                    alt="User Profile Picture">
+                            </div>
+                        {% endif %}
+                        <p
+                            id="user-uid"
+                            class="tw-h-full tw-p-1 tw-border-l tw-border-gold">
+                            {{ user[0] }}
+                        </p>
+                        <p
+                            id="user-role"
+                            class="tw-h-full tw-p-1 tw-border-l tw-border-gold {% if user[3] == 'Admin' %}tw-text-red-600{% elif user[3] == 'User' %}tw-text-neutral-400{% endif %} tw-font-bold">
+                            {{ user[3] }}
+                        </p>
+                        <p
+                            id="user-email"
+                            class="tw-h-full tw-p-1 tw-border-l tw-border-gold">
+                            {{ user[1] }}
+                        </p>
+                        <p
+                            id="user-username"
+                            class="tw-h-full tw-p-1 tw-border-l tw-border-gold">
+                            {{ user[2] }}
+                        </p>
+                    </div>
+                </a>
             {% endfor %}
+            </div>
         </div>
     </main>
     

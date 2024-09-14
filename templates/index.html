@@ -43,9 +43,9 @@
                     <ul class="tw-absolute tw-right-10 tw-p-1 hover:tw-text-red-800 tw-transition-all"><a href="{{ url_for('login') }}">Login</a></ul>
                 {% endif %}
                 {% if session %}
-                    <ul class="tw-absolute tw-right-10"><a href="{{ url_for('profile') }}"><img class="tw-h-6" src="/static/media/profile.png" alt="A profile icon."></a></ul>
+                    <ul class="tw-absolute tw-right-10"><a href="{{ url_for('edit_profile', username=user.username)}}"><img class="tw-h-6" src="/static/media/icons/profile.png" alt="A profile icon."></a></ul>
                 {% endif %}
-                <ul class="tw-absolute tw-right-2"><a href="#"><img class="tw-h-6 hover:tw-rotate-45 tw-transition-transform tw-duration-500" src="/static/media/settings-wheel.png" alt="A settings cog icon."></a></ul>
+                <ul class="tw-absolute tw-right-2"><a href="#"><img class="tw-h-6 hover:tdevil ww-rotate-45 tw-transition-transform tw-duration-500" src="/static/media/icons/settings-wheel.png" alt="A settings cog icon."></a></ul>
             </li>
         </nav>
     </header>

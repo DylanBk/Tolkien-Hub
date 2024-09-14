@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <link rel="icon" type="image/x-icon" href="../static/media/favicon.png">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tolkien Hub | Profile</title>
+        <script src="/static//js/script.js" defer></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+              theme: {
+                extend: {
+                    colors: {
+                        "gold": "#e3b737",
+                        "gold-dark": "#b87316",
+                        "green-darkest": "#2b2f22",
+                        "green-dark": "#355a22",
+                    },
+                    fontFamily: {
+                        "cinzel": "Cinzel",
+                    }
+                }
+              },
+              prefix: 'tw-',
+            }
+          </script>
+    </head>
+<body>
+
+    <header class="tw-h-32 tw-w-full tw-z-10 tw-fixed tw-top-0 tw-flex tw-flex-col tw-bg-green-darkest">
+        <a href="{{ url_for('home') }}" class="tw-pb-8 tw-m-auto tw-text-white tw-text-5xl tw-font-cinzel">Tolkien Hub</a>
+        <nav class="tw-h-8 tw-w-full tw-absolute tw-bottom-0 tw-flex">
+            <li class="tw-w-full tw-flex tw-justify-center tw-items-center tw-bg-gold">
+                <ul class="tw-p-2 tw-mx-5 hover:tw-text-red-800"><a href="#">About</a></ul>
+                <ul class="tw-p-2 tw-mx-5 hover:tw-text-red-800"><a href="#">Tolkien's Life</a></ul>
+                <ul class="tw-p-2 tw-mx-5 hover:tw-text-red-800"><a href="#">Books</a></ul>
+                <ul class="tw-p-2 tw-mx-5 hover:tw-text-red-800"><a href="#">Film Adaptations</a></ul>
+                <ul class="tw-absolute tw-right-2"><a href="#"><img class="tw-h-6 hover:tw-rotate-45 tw-transition-transform tw-duration-500" src="/static/media/icons/settings-wheel.png" alt="A settings cog icon."></a></ul>
+            </li>
+        </nav>
+    </header>
+
+    <main 
+        id="main-container"
+        class="tw-min-h-screen tw-w-full tw-flex tw-flex-col tw-items-center tw-mt-44 tw-text-black">
+        <div class="tw-w-10/12 tw-mx-36 tw-border-t tw-border-white"></div>
+        <div class="tw-w-10/12 tw-relative tw-flex tw-flex-col tw-items-center tw-p-4 tw-border-2 tw-border-gold tw-rounded-lg tw-mt-10 tw-mb-10 tw-bg-gray-800 tw-text-white">
+            {% if user.username == user_data[2] %}
+                <a class="tw-absolute tw-top-4 tw-right-4 tw-px-6 tw-py-2 tw-rounded-sm tw-bg-red-600 tw-text-white hover:tw-bg-red-700" href="{{ url_for('logout') }}">Logout</a>
+            {% endif %}
+            <div class="tw-relative tw-h-1/3 tw-pb-4 tw-border-b tw-mt-5 tw-border-white">
+                {% if pfp %}
+                    <img
+                        id="user-pfp"
+                        class="tw-h-1/4 tw-aspect-square tw-rounded-full tw-ring-2 tw-ring-gold"
+                        src="data:image/png;base64,{{ pfp }}"
+                        alt="Profile Picture">
+                {% else %}
+                    <img
+                        id="user-pfp"
+                        class="tw-h-full tw-aspect-square tw-rounded-full tw-ring-2 tw-ring-gold"
+                        src="/static//media/images/user-placeholder.png"
+                        alt="Profile Picture">
+                {% endif %}
+                <button
+                id="change-pfp-btn"
+                class="tw-h-1/4 tw-aspect-square tw-absolute tw-right-0 tw-bottom-3 tw-rounded-md tw-bg-white">
+                    <img
+                        id="edit-pfp-btn"
+                        class="tw-h-full tw-p-1 tw-border-2 tw-border-gray-400 tw-rounded-md hover:tw-scale-105 hover:tw-border-black"
+                        src="/static/media/icons/edit-pencil-grey.png"
+                        onmouseover="this.src='/static/media/icons/edit-pencil-black.png'"
+                        onmouseout="this.src='/static/media/icons/edit-pencil-grey.png'"
+                        alt="An edit profile picture icon.">
+                </button>
+            </div>
+
+            <div
+                id="change-pfp-form-container"
+                class="tw-h-72 tw-w-60 tw-relative tw-hidden tw-m-auto tw-bg-white tw-text-black">
+                <div
+                    id="file-drop-area"
+                    class="tw-h-32 tw-w-56 tw-border-2 tw-border-black tw-border-dashed tw-m-auto tw-text-center tw-cursor-pointer">
+                    Drag here to preview
+                </div>
+                <input
+                    id="file-input"
+                    name="file"
+                    type="file"
+                    multiple
+                    hidden>
+                <div
+                    id="preview-container"
+                    class="tw-text-center">
+                </div>
+                <button
+                    id="cancel-change-pfp-btn"
+                    class="tw-absolute tw-left-2 tw-bottom-1 tw-px-4 tw-py-2 tw-rounded tw-mt-4 tw-bg-gray-300 tw-text-black hover:tw-bg-gray-400">
+                    Cancel
+                </button>
+                <button
+                    id="file-upload-btn"
+                    class="tw-absolute tw-right-2 tw-bottom-1 tw-px-4 tw-py-2 tw-rounded tw-mt-4 tw-bg-blue-500 tw-text-white tw-transition-colors tw-cursor-not-allowed"
+                    disabled>
+                    Upload
+                </button>
+            </div>
+
+            <div
+                id="change-user-data-container"
+                class="tw-h-auto tw-w-full tw-flex tw-flex-col tw-gap-5 tw-mx-auto tw-mt-4">
+                <form
+                    id="change-email-form"
+                    class="tw-flex tw-flex-row tw-mx-auto tw-mt-4"
+                    action="{{ url_for('change_email', username=user.username) }}"
+                    method="post">
+                    <input
+                        id="user-email"
+                        name="email"
+                        class="tw-px-1 tw-py-2 tw-rounded-l-md tw-m-auto tw-bg-white tw-text-base tw-text-black"
+                        type="email"
+                        placeholder="{{ user_data[1] }}"
+                        required>
+                    <button
+                        id="change-email-btn"
+                        class="tw-px-4 tw-py-2 tw-rounded-r-md tw-bg-blue-500 hover:tw-bg-blue-600 tw-transition-colors"
+                        type="submit">
+                    Change</button>
+                </form>
+
+                <form
+                    id="change-username-form"
+                    class="tw-flex tw-flex-row tw-mx-auto"
+                    action="{{ url_for('change_username', username=user.username) }}"
+                    method="post">
+                    <input
+                        id="user-username"
+                        name="username"
+                        class="tw-px-1 tw-py-2 tw-rounded-l-md tw-m-auto tw-bg-white tw-text-base tw-text-black"
+                        type="text"
+                        placeholder="{{ user_data[2] }}"
+                        required>
+                    <button
+                        id="change-username-btn"
+                        class="tw-px-4 tw-py-2 tw-rounded-r-md tw-bg-blue-500 hover:tw-bg-blue-600 tw-transition-colors"
+                        type="submit">
+                    Change</button>
+                </form>
+
+                <div class="tw-flex tw-flex-col tw-items-center tw-border-t tw-border-white tw-mx-auto">
+                    <p class="tw-my-4 tw-text-lg">Change Password</p>
+                    <form
+                        id="change-password-form"
+                        class="tw-flex tw-flex-col tw-gap-3 tw-items-center"
+                        action=""
+                        method="post">
+                        <input
+                            class="tw-px-1 tw-py-2 tw-rounded-md tw-m-auto tw-bg-white tw-text-base tw-text-black"
+                            name="old-password"
+                            type="password"
+                            placeholder="Old Password"
+                            required>
+                        <input
+                            class="tw-px-1 tw-py-2 tw-rounded-md tw-m-auto tw-bg-white tw-text-base tw-text-black"
+                            name="new-password"
+                            type="password"
+                            placeholder="New Password"
+                            required>
+                        <input
+                            class="tw-px-1 tw-py-2 tw-rounded-md tw-m-auto tw-bg-white tw-text-base tw-text-black"
+                            name="confirm-password"
+                            type="password"
+                            placeholder="Confirm Password"
+                            required>
+                        <button
+                            id="change-password-btn"
+                            class="tw-px-6 tw-py-2 tw-rounded-md tw-bg-blue-500 hover:tw-bg-blue-600 tw-transition-colors"
+                            type="submit">
+                            Confirm
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

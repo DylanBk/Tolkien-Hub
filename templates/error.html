@@ -3,6 +3,9 @@
     <head>
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
         <link rel="icon" type="image/x-icon" href="../static/media/favicon.png">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap" rel="stylesheet">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Tolkien Hub | {{error_type}}</title>
@@ -41,9 +44,9 @@
                     <ul class="tw-absolute tw-right-10 tw-p-1 hover:tw-text-red-800 tw-transition-all"><a href="{{ url_for('login') }}">Login</a></ul>
                 {% endif %}
                 {% if session %}
-                    <ul class="tw-absolute tw-right-10"><a href="#"><img class="tw-h-6" src="/static/media/profile.png" alt="A profile icon."></a></ul>
+                    <ul class="tw-absolute tw-right-10"><a data-username="{{ user.username }}" href="{{ url_for('edit_profile', username=user.username) }}"><img class="tw-h-6" src="/static/media/icons/profile.png" alt="A profile icon."></a></ul>
                 {% endif %}
-                <ul class="tw-absolute tw-right-2"><a href="#"><img class="tw-h-6 hover:tw-rotate-45 tw-transition-transform tw-duration-500" src="/static/media/settings-wheel.png" alt="A settings cog icon."></a></ul>
+                <ul class="tw-absolute tw-right-2"><a href="#"><img class="tw-h-6 hover:tw-rotate-45 tw-transition-transform tw-duration-500" src="/static/media/icons/settings-wheel.png" alt="A settings cog icon."></a></ul>
             </li>
         </nav>
     </header>

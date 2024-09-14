@@ -3,6 +3,9 @@
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="icon" type="image/x-icon" href="../static/media/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tolkien Hub | Login</title>
@@ -37,8 +40,7 @@
                 <ul class="tw-p-2 tw-mx-5 hover:tw-text-red-800"><a href="#">Tolkien's Life</a></ul>
                 <ul class="tw-p-2 tw-mx-5 hover:tw-text-red-800"><a href="#">Books</a></ul>
                 <ul class="tw-p-2 tw-mx-5 hover:tw-text-red-800"><a href="#">Film Adaptations</a></ul>
-                <ul class="tw-absolute tw-right-10"><a href="#"><img class="tw-h-6" src="/static/media/profile.png" alt="A profile icon."></a></ul>
-                <ul class="tw-absolute tw-right-2"><a href="#"><img class="tw-h-6 hover:tw-rotate-45 tw-transition-transform tw-duration-500" src="/static/media/settings-wheel.png" alt="A settings cog icon."></a></ul>
+                <ul class="tw-absolute tw-right-2"><a href="#"><img class="tw-h-6 hover:tw-rotate-45 tw-transition-transform tw-duration-500" src="/static/media/icons/settings-wheel.png" alt="A settings cog icon."></a></ul>
             </li>
         </nav>
     </header>
@@ -47,7 +49,7 @@
 
         <div
             id="form-container"
-            class="tw-h-80 tw-w-1/4 tw-absolute tw-left-1/2 tw-flex tw-rounded-tl-3xl tw-m-auto tw-mt-20 tw-bg-white tw-text-black tw--translate-x-1/2">
+            class="tw-h-80 tw-w-1/2 tw-absolute tw-left-1/2 tw-flex tw-rounded-tl-3xl tw-m-auto tw-mt-20 tw-bg-white tw-text-black tw--translate-x-1/2">
 
             <div
                 id="form-container-left-block"
@@ -61,7 +63,7 @@
                 class="tw-h-80 tw-w-3/4 tw-absolute tw--top-10 tw-left-0 tw-rounded-tl-3xl tw-mt-10 tw-bg-green-900">
                 <button
                     id="signup-form-switch"
-                    class="tw-h-10 tw-w-56 tw-absolute tw--top-10 tw-left-0 -tw-z-50 tw-border-2 tw-rounded-t-3xl tw-border-gold tw-my-auto tw-bg-green-darkest tw-text-lg tw-text-center tw-text-white tw-invisible hover:tw-bg-gold tw-transition-all"
+                    class="tw-h-10 tw-w-2/3 tw-absolute tw--top-10 tw-left-0 -tw-z-50 tw-border-2 tw-rounded-t-3xl tw-border-gold tw-my-auto tw-bg-green-darkest tw-text-lg tw-text-center tw-text-white tw-invisible hover:tw-bg-gold tw-transition-colors"
                     onclick="switch_to_signup_form()">
                     Register
                 </button>
@@ -71,25 +73,25 @@
                     action="{{ url_for('signup') }}"
                     method="post">
                     <input
-                        class="tw-w-60 tw-p-2 tw-rounded-lg tw-mx-auto tw-mt-10 tw-outline-none tw-bg-green-800"
+                        class="tw-w-11/12 tw-p-2 tw-rounded-lg tw-mx-auto tw-mt-10 tw-outline-none tw-bg-green-800"
                         name="email"
                         type="email"
                         placeholder="Email Address"
                         required>
                     <input
-                        class="tw-w-60 tw-p-2 tw-rounded-lg tw-mx-auto tw-mt-10 tw-outline-none tw-bg-green-800"
+                        class="tw-w-11/12 tw-p-2 tw-rounded-lg tw-mx-auto tw-mt-10 tw-outline-none tw-bg-green-800"
                         name="username"
                         type="text"
                         placeholder="Username"
                         required>
                     <input
-                        class="tw-w-60 tw-p-2 tw-rounded-lg tw-mx-auto tw-mt-10 tw-outline-none tw-bg-green-800"
+                        class="tw-w-11/12 tw-p-2 tw-rounded-lg tw-mx-auto tw-mt-10 tw-outline-none tw-bg-green-800"
                         name="password"
                         type="password"
                         placeholder="Password"
                         required>
                     <button
-                        class="tw-w-72 tw-p-2 tw-rounded-sm tw-mx-auto tw-my-8 tw-bg-gold tw-text-black hover:tw-bg-gold-dark tw-transition-all tw-duration-0"
+                        class="tw-w-3/4 tw-p-2 tw-rounded-sm tw-mx-auto tw-my-8 tw-bg-gold tw-text-black hover:tw-bg-gold-dark tw-transition-all tw-duration-0"
                         type="submit">
                     Sign Up
                     </button>
@@ -101,7 +103,7 @@
                 class="tw-h-80 tw-w-3/4 tw-absolute tw--top-10 tw-right-0 tw-rounded-tr-3xl tw-mt-10 tw-bg-green-900 tw-invisible">
                 <button
                     id="login-form-switch"
-                    class="tw-h-10 tw-w-56 tw-absolute tw--top-10 tw-right-0 tw-z-50 tw-border-2 tw-rounded-t-3xl tw-border-gold tw-my-auto tw-bg-green-darkest tw-text-lg tw-text-center tw-text-white tw-visible hover:tw-bg-gold tw-transition-all"
+                    class="tw-h-10 tw-w-2/3 tw-absolute tw--top-10 tw-right-0 tw-z-50 tw-border-2 tw-rounded-t-3xl tw-border-gold tw-my-auto tw-bg-green-darkest tw-text-lg tw-text-center tw-text-white tw-visible hover:tw-bg-gold tw-transition-colors"
                     onclick="switch_to_login_form()">
                     Sign In
                 </button>
@@ -112,20 +114,20 @@
                     method="post"
                     >
                     <input
-                        class="tw-w-60 tw-p-2 tw-rounded-lg tw-mx-auto tw-mt-10 tw-outline-none tw-bg-green-800"
+                        class="tw-w-11/12 tw-p-2 tw-rounded-lg tw-mx-auto tw-mt-10 tw-outline-none tw-bg-green-800"
                         name="email"
                         type="email"
                         placeholder="Email Address"
                         required>
 
                     <input
-                        class="tw-w-60 tw-p-2 tw-rounded-lg tw-mx-auto tw-mt-5 tw-mb-5 tw-bg-green-800 tw-outline-none"
+                        class="tw-w-11/12 tw-p-2 tw-rounded-lg tw-mx-auto tw-mt-5 tw-mb-5 tw-bg-green-800 tw-outline-none"
                         name="password"
                         type="password"
                         placeholder="Password"
                         required>
                     <button
-                        class="tw-w-72 tw-p-2 tw-rounded-sm tw-mx-auto tw-my-8 tw-bg-gold tw-text-black hover:tw-bg-gold-dark tw-transition-all tw-duration-0"
+                        class="tw-w-3/4 tw-p-2 tw-rounded-sm tw-mx-auto tw-my-8 tw-bg-gold tw-text-black hover:tw-bg-gold-dark tw-transition-all tw-duration-0"
                         type="submit">
                         Log In
                     </button>
@@ -136,7 +138,7 @@
                 id="form-container-right-block"
                 class="tw-h-80 tw-w-1/4 tw-absolute tw-right-0 tw-flex tw-flex-col tw-justify-center tw-text-center">
                 <h3 class="tw-text-md tw-font-semibold tw-text-green-900">Hey There!</h3>
-                <p class="tw-text-sm">Create an account and join the community.</p>
+                <p class="tw-m-1 tw-text-sm">Create an account and join the community.</p>
             </div>
 
         </div>
