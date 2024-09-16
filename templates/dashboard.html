@@ -61,9 +61,9 @@
             </div>
             {% for user in users %}
                 <a
-                    class="tw-w-full tw-block hover:tw-bg-gray-200"
+                    class="tw-w-full tw-relative tw-block hover:tw-bg-gray-200"
                     href="{{ url_for('edit_profile', username=user[2]) }}">
-                    <div class="tw-grid tw-grid-cols-5 tw-items-center tw-border-t tw-border-gray-200">
+                    <div class="tw-grid tw-grid-cols-5 tw-items-center tw-justify-center tw-border-t tw-border-gray-200">
                         {% if users[user] %}
                             <div class="tw-w-full">
                                 <img
@@ -102,6 +102,12 @@
                             {{ user[2] }}
                         </p>
                     </div>
+                    <button
+                        href="{{ url_for('edit_profile', username=user[2]) }}"
+                        class="tw-w-20 tw-absolute tw-top-0 tw-right-0 tw-z-10 tw-flex tw-flex-row px-4 tw-py-2 tw-rounded-lg tw-bg-blue-500 hover:tw-bg-blue-600">
+                        <p class="tw-ml-2 tw-text-white">Edit</p>
+                        <img class="tw-h-5 tw-w-5 tw-absolute tw-right-2" src="/static/media/icons/edit-pencil-white.png" alt="Pencil Edit Icon">
+                    </button>
                 </a>
             {% endfor %}
             </div>

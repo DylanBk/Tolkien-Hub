@@ -43,6 +43,9 @@
                     <ul class="tw-absolute tw-right-10 tw-p-1 hover:tw-text-red-800 tw-transition-all"><a href="{{ url_for('login') }}">Login</a></ul>
                 {% endif %}
                 {% if session %}
+                    {% if user.role == 'Admin' %}
+                        <ul class="tw-absolute tw-right-20 hover:tw-text-red-800"><a href="{{ url_for('admin_dashboard') }}">Admin</a></ul>
+                    {% endif %}
                     <ul class="tw-absolute tw-right-10"><a href="{{ url_for('edit_profile', username=user.username)}}"><img class="tw-h-6" src="/static/media/icons/profile.png" alt="A profile icon."></a></ul>
                 {% endif %}
                 <ul class="tw-absolute tw-right-2"><a href="#"><img class="tw-h-6 hover:tdevil ww-rotate-45 tw-transition-transform tw-duration-500" src="/static/media/icons/settings-wheel.png" alt="A settings cog icon."></a></ul>
